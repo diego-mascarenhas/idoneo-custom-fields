@@ -12,8 +12,6 @@ final class ICF_Updater
     private const API_URL = 'https://api.github.com/repos/diego-mascarenhas/idoneo-custom-fields/releases/latest';
     private const REPOSITORY_URL = 'https://github.com/diego-mascarenhas/idoneo-custom-fields';
     private const ASSET_NAME = 'idoneo-custom-fields.zip';
-    private const CACHE_KEY = 'icf_latest_github_release';
-    private const CACHE_TTL = 6 * HOUR_IN_SECONDS;
 
     private static ?self $instance = null;
 
@@ -30,7 +28,6 @@ final class ICF_Updater
     {
         add_filter('pre_set_site_transient_update_plugins', [$this, 'check_for_update']);
         add_filter('plugins_api', [$this, 'plugin_information'], 20, 3);
-        add_action('upgrader_process_complete', [$this, 'clear_cache'], 10, 2);
     }
 
     /**
@@ -108,37 +105,12 @@ final class ICF_Updater
     }
 
     /**
-     * Clears the cached release after this plugin is updated.
-     *
-     * @param mixed $upgrader Upgrader instance.
-     * @param array $options  Upgrade options.
-     */
-    public function clear_cache($upgrader, array $options): void
-    {
-        if (
-            'update' !== ($options['action'] ?? '')
-            || 'plugin' !== ($options['type'] ?? '')
-            || empty($options['plugins'])
-            || ! in_array(plugin_basename(ICF_PLUGIN_FILE), (array) $options['plugins'], true)
-        ) {
-            return;
-        }
-
-        delete_site_transient(self::CACHE_KEY);
-    }
-
-    /**
      * Gets and normalizes the latest public GitHub release.
      *
      * @return array{version:string,url:string,package:string,notes:string}|null
      */
     private function get_release(): ?array
     {
-        $cached = get_site_transient(self::CACHE_KEY);
-        if (is_array($cached)) {
-            return $cached;
-        }
-
         $response = wp_remote_get(
             self::API_URL,
             [
@@ -176,16 +148,12 @@ final class ICF_Updater
             return null;
         }
 
-        $release = [
+        return [
             'version' => $version,
             'url'     => esc_url_raw($data['html_url'] ?? self::REPOSITORY_URL),
             'package' => $package,
             'notes'   => $this->format_release_notes((string) ($data['body'] ?? '')),
         ];
-
-        set_site_transient(self::CACHE_KEY, $release, self::CACHE_TTL);
-
-        return $release;
     }
 
     private function format_release_notes(string $notes): string

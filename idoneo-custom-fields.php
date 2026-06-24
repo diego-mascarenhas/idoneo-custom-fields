@@ -3,7 +3,7 @@
 /**
  * Plugin Name: IDONEO Custom Fields
  * Description: Build custom fields, repeaters, flexible content, galleries and options pages for any post type. PRO-level functionality, IDONEO branded.
- * Version: 1.1.2
+ * Version: 1.1.3
  * Plugin URI: https://github.com/diego-mascarenhas/idoneo-custom-fields
  * Update URI: https://github.com/diego-mascarenhas/idoneo-custom-fields
  * Author: IDONEO
@@ -19,7 +19,7 @@ if (! defined('ABSPATH')) {
     exit;
 }
 
-define('ICF_VERSION', '1.1.2');
+define('ICF_VERSION', '1.1.3');
 define('ICF_PLUGIN_FILE', __FILE__);
 define('ICF_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('ICF_PLUGIN_URL', plugin_dir_url(__FILE__));
