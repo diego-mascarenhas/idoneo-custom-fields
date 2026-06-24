@@ -1,0 +1,30 @@
+name: Validate plugin
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Validate version files
+        run: php scripts/validate-version.php
+
+      - name: Lint PHP
+        run: find . -name '*.php' -not -path './dist/*' -print0 | xargs -0 -n1 php -l
+
+      - name: Build WordPress ZIP
+        run: ./build-zip.sh dist
+
+      - name: Verify ZIP contents
+        run: |
+          unzip -t dist/idoneo-custom-fields.zip
+          unzip -Z1 dist/idoneo-custom-fields.zip | grep -qx 'idoneo-custom-fields/idoneo-custom-fields.php'
