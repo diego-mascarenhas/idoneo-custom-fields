@@ -3,7 +3,9 @@
 /**
  * Plugin Name: IDONEO Custom Fields
  * Description: Build custom fields, repeaters, flexible content, galleries and options pages for any post type. PRO-level functionality, IDONEO branded.
- * Version: 1.0.0
+ * Version: 1.1.0
+ * Plugin URI: https://github.com/diego-mascarenhas/idoneo-custom-fields
+ * Update URI: https://github.com/diego-mascarenhas/idoneo-custom-fields
  * Author: IDONEO
  * License: GPLv2 or later
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -17,7 +19,7 @@ if (! defined('ABSPATH')) {
     exit;
 }
 
-define('ICF_VERSION', '1.0.0');
+define('ICF_VERSION', '1.1.0');
 define('ICF_PLUGIN_FILE', __FILE__);
 define('ICF_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('ICF_PLUGIN_URL', plugin_dir_url(__FILE__));
@@ -31,6 +33,7 @@ require_once ICF_PLUGIN_DIR . 'includes/class-icf-meta-box.php';
 require_once ICF_PLUGIN_DIR . 'includes/class-icf-options-page.php';
 require_once ICF_PLUGIN_DIR . 'includes/class-icf-api.php';
 require_once ICF_PLUGIN_DIR . 'includes/class-icf-rest.php';
+require_once ICF_PLUGIN_DIR . 'includes/class-icf-updater.php';
 require_once ICF_PLUGIN_DIR . 'includes/icf-functions.php';
 
 function icf_init(): void
@@ -42,6 +45,7 @@ function icf_init(): void
     ICF_Meta_Box::get_instance();
     ICF_Options_Page::get_instance();
     ICF_REST::get_instance();
+    ICF_Updater::get_instance();
 }
 add_action('plugins_loaded', 'icf_init');
 

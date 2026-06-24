@@ -4,7 +4,7 @@ Tags: custom fields, acf, repeater, flexible content, options page, meta box
 Requires at least: 5.8
 Tested up to: 6.6
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -81,6 +81,11 @@ Post field values are stored in standard post meta (one row per top-level field)
 No. The `get_field()` family of functions is only declared if no other plugin already defines them. Always-safe `icf_*` functions are also provided.
 
 == Changelog ==
+
+= 1.1.0 =
+* Added automatic update checks through public GitHub Releases.
+* Added automated validation, packaging, and release workflows for GitHub Actions.
+* Added portable version validation and ZIP build tools.
 
 = 1.0.0 =
 * Initial release: field builder, location rules, repeater, flexible content, group, gallery, options pages, conditional logic, and the developer API.
